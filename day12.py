@@ -32,15 +32,16 @@ for line in sys.stdin:
     print(line)
     moons.append(Moon(*line))
 
-steps = 1000
-for i in range(steps):
-    print('step: ', i+1)
+steps = 1
+for i in range(0, steps+1):
+    print('step: ', i)
+    for m in moons:
+        print(m)
+    if i == steps:
+        print(sum([m.energy() for m in moons]))
+
     for m in moons:
         for n in moons:
             m.gravity(n)
     for m in moons:
         m.velocity()
-    for m in moons:
-        print(m)
-    if i == steps-1:
-        print(sum([m.energy() for m in moons]))
