@@ -36,7 +36,7 @@ while i < len(codes):
     elif op[0] == 4 and len(op) < 3:
         op = op + [0] * (3 - len(op))
     params = []
-    # print('Running operation: ', op, 'on line ', i, codes[i:i+4])
+    print('Running operation: ', op, 'on line ', i, codes[i:i+4])
     if op[0] == 9 and op[1] == 9:  # 99 case
         break
     for k in range(2, len(op)):

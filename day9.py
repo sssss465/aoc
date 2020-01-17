@@ -28,7 +28,10 @@ while i < len(codes):
             else:
                 params.append(codes[base + codes[j]])
         elif act == 0:  # position mode
-            params.append(codes[codes[j]])
+            if op[0] == 3:
+                params.append(codes[j])
+            else:
+                params.append(codes[codes[j]])
         elif act == 1:  # immediate mode
             params.append(codes[j])
         j += 1
