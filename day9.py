@@ -32,7 +32,7 @@ while i < len(codes):
         elif act == 1:  # immediate mode
             params.append(codes[j])
         j += 1
-    print('Running op: ', op, 'on line ', i, codes[i:i+5], params, base)
+    # print('Running op: ', op, 'on line ', i, codes[i:i+5], params, base)
     # now we have to be in position mode after finding results
     c = codes[j]  # we write to the last pointed position
     # update written position to relative mode if it ends with 2
@@ -48,7 +48,7 @@ while i < len(codes):
     elif op[0] == 3:
         assert(len(params) == 1)
         print('input', params)
-        codes[params[0]] = 1  # input
+        codes[params[0]] = 2  # input
     elif op[0] == 4:
         assert(len(params) == 1)
         output.append(params[0])
