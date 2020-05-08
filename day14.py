@@ -39,6 +39,15 @@ have = cl.defaultdict(int)
 
 
 def Simulate(Quantity):
+    r"""
+    Simulate the reactions
+
+    Args:
+        Quantity: quantity of fuel
+
+    Returns:
+        Ore needed
+    """
     Tree = cl.defaultdict(int, {'FUEL': Quantity})
     while not all(Pt == "ORE" or Tree[Pt] <= 0 for Pt in Tree):
         for Material, Quantity in Tree.copy().items():
@@ -65,7 +74,7 @@ def Simulate(Quantity):
 Steps, Order = cl.defaultdict(set), cl.defaultdict(list)
 
 
-def Walk(Pt, n=0):
+def Walk(Pt: int, n=0):
     for _, X in graph[Pt][1]:
         if X in graph:
             Walk(X, n+1)
