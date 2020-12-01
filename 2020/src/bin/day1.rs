@@ -12,16 +12,14 @@ fn main() {
     }
 
     let sl = &v[..];
-    for a in sl {
-        // println!("{}", line.unwrap());
+    for (i, a) in sl.iter().enumerate() {
         if set.contains(&(2020 - a)) {
             println!("part 1: {}", (2020 - a) * a);
-            println!("{} + {}", a, 2020 - a);
         }
 
-        for b in sl {
+        for b in &v[i + 1..] {
             if set.contains(&(2020 - (a + b))) {
-                println!("part 2 {}", (2020 - (a + b)) * a * b);
+                println!("part 2: {}", (2020 - (a + b)) * a * b);
             }
         }
         set.insert(a);
