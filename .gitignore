@@ -1,5 +1,8 @@
 brainfuck.py
+.vim/
 my-app
 .vscode/
 .DS_Store
 zip2john.c
+__pycache__
+.mypy_cache
