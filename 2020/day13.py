@@ -23,7 +23,7 @@ offsets = [int(n)-i for i, n in enumerate(
 
 def chinese_remainder(n, a):
     sum = 0
-    prod = reduce(lambda a, b: a*b, n)
+    prod = reduce(lambda a, b: a*b, n)  # products of all
     for n_i, a_i in zip(n, a):
         p = prod // n_i
         sum += a_i * mul_inv(p, n_i) * p
