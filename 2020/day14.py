@@ -1,22 +1,12 @@
 import fileinput
 import collections
 import re
-# mask
-# 0 0 - 0
-# 0 1 - 1
-# 1 1 - 1
-# 1 0 - 0
-# 0 X - 0
-# 1 X - 1
-
-# - 0 1
-# 0 0 1
-# 1 0 1
-# ^AB + AB = B
+from functools import reduce
 
 lines = [x for x in fileinput.input()]
 memory = collections.defaultdict(int)
 mask = ''
+memory2 = collections.defaultdict()
 
 
 def msk(m, n):  # mask, number
@@ -34,6 +24,24 @@ def msk(m, n):  # mask, number
     return r
 
 
+def msk2(memory2, m, index, num, location2s):  # part 2
+    #n is index
+    bld = f'{index:036b}'
+    # print(m, bld)
+    location = ''.join(
+        (c2 if c1 == '0' else c1 for c1, c2 in zip(m, bld)))
+
+    def find(location):
+        try:
+            first = location.index('X')
+            find(location[0:first] + '1' + location[first+1:])
+            find(location[0:first] + '0' + location[first+1:])
+        except:
+            memory2[int(location, 2)] = num
+    find(location)
+
+
+location2s = []
 for l in lines:
     left, right = l.split('=')
     left = left.strip()
@@ -42,7 +50,9 @@ for l in lines:
         index = re.findall("(?<=\[).+?(?=\])", left)[0]
         num = int(right)
         memory[int(index)] = msk(mask, num)
+        msk2(memory2, mask, int(index), num, location2s)
     else:
         mask = right
-# print(memory)
+print(len(memory2))
 print('silver', sum(memory.values()))
+print('gold', reduce(lambda x, y: x + y, memory2.values(), 0))
