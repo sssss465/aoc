@@ -1,5 +1,8 @@
 import fileinput
 import collections
+from functools import reduce
+
+# what an abomination
 
 lines = [l.strip() for l in fileinput.input()]
 rate = 0
@@ -32,21 +35,57 @@ for l in lines:
     if group == 1:
         mine = v
 # print(rules, mine, nearby)
+ticket_cands = []
 for tickets in nearby:
-    for f in tickets:
+    discard = False
+    field_match = [[] for i in range(len(tickets))]
+    for field_index, f in enumerate(tickets):
         found = False
+        rule_num = 0
         for k, v in rules.items():
             good = False
             for r in v:
                 lo, hi = map(int, r.split('-'))
                 if lo <= f <= hi:
                     good = True
-                    break
             if good:
                 found = True
-                break
+                field_match[field_index].append(rule_num)
+            rule_num += 1
         if not found:
             rate += f
+            discard = True
+    if not discard:
+        ticket_cands.append(field_match)
+res = [0]*len(mine)
+# print(ticket_cands)
+for i, col in enumerate(zip(*ticket_cands)):
+    r = set.intersection(*map(set, col))
+    # print(r)
+    res[i] = r
+    # assert(len(r) == 1)
+while any((len(r) > 1 for r in res)):
+    for r in res:
+        if len(r) == 1:
+            v = list(r)[0]
+            for s in res:
+                if r != s and v in s:
+                    s.remove(v)
+res2 = [0]*len(mine)
+for i, r in enumerate(res):
+    r = list(r)
+    res2[r[0]] = mine[i]
+res = res2
+print(res)
+cnt = 0
+rr = []
+for k, v in rules.items():
+    k = k.split(' ')
+    # print(k)
+    if k[0] == 'departure':
+        rr.append(res[cnt])
+    cnt += 1
 
 
 print('silver', rate)
+print('gold', reduce(lambda l, r: l*r, rr))
