@@ -28,7 +28,7 @@ def solve():
                     vals.append(op_map[op](t1, t2))
                 ops.pop()
             if token in op_map:
-                # while token has greater presidence than operator on top of stack
+                # while token has less presidence than operator on top of stack
                 while len(ops) and pres[token] <= pres[ops[-1]]:
                     op = ops.pop()
                     # print(vals, ops, op)
