@@ -32,9 +32,10 @@ def resolve(node):
 for line in lines:
     e = line.split('->')
     name = e[0].strip()
-    # print(name)
     out = e[1].strip()
-    # print(out)
     mp[out] = name
-print(mp)
-print(f"silver {resolve('a')}")
+silver = resolve('a')
+print(f"silver {silver}")
+build = {}
+mp['b'] = str(silver)
+print(f"gold {resolve('a')}")
