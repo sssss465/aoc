@@ -6,3 +6,4 @@ my-app
 zip2john.c
 __pycache__
 .mypy_cache
+target/
