@@ -6,15 +6,6 @@ import ast
 import math
 
 lines = [l.strip() for l in fileinput.input()]
-
-
-@dataclass
-class Pair:
-    left: Union["Pair", List]
-    right: Union["Pair", List]
-    level: int
-
-
 # If any pair is nested inside four pairs, the leftmost such pair explodes.
 # If any regular number is 10 or greater, the leftmost such regular number splits.
 
@@ -68,35 +59,15 @@ def split(pair) -> bool:
 def magnitude(pairs):
     # 3x left value, 2x right value summed up, do this recursively
     # build by level from increase to decreasing
-    from collections import defaultdict, deque
-
-    # d = defaultdict(deque)
-    # md = 0
-    # for v, k in pairs:
-    #     d[k].append(v)
-    #     md = max(k, md)
-    # print(d)
-    # [[[1, 2], 3], [4, 5]]
-    # for i in range(md, -1, -1):
-    #     if len(d[i]) == 1:
-    #         return d[i][0]
-    #     else:
-    #         assert len(d[i]) % 2 == 0
-    #     for j in range(0, len(d[i]), 2):
-    #         d[i - 1].appendleft(d[i][j] * 3 + d[i][j + 1] * 2)
     st = [pairs[0]]
     for i in range(1, len(pairs)):
-        if st and st[-1][1] == pairs[i][1]:
-            v, d = st.pop()
-            st.append([3 * v + 2 * pairs[i][0], d - 1])
-        else:
-            st.append([pairs[i][0], pairs[i][1]])
+        st.append([pairs[i][0], pairs[i][1]])
         while len(st) >= 2 and st[-1][1] == st[-2][1]:
             v, d = st.pop()  # right
             v1, d1 = st.pop()  # left
             st.append([3 * v1 + 2 * v, d - 1])
         # print(st)
-    print(st)
+    # print(st)
     return st[0]
     return -1  # bad value
 
@@ -130,5 +101,18 @@ def solve():
     return magnitude(p)
 
 
+def solve2():
+    res = 0
+    for i in range(len(lines)):
+        for j in range(len(lines)):
+            if i != j:
+                p = build(lines[i]) + build(lines[j])
+                for j in range(len(p)):
+                    p[j][1] += 1
+                res = max(res, magnitude(red(p))[0])
+    return res
+
+
 if __name__ == "__main__":
     print("silver", solve()[0])
+    print("gold", solve2())
