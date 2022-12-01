@@ -14,4 +14,4 @@ for line in lines:
 arr.append(cur)
 
 print(f'🤍 {max(arr):>6}')
-print(f'💛 {sum(sorted(arr)[-3:]):>06}')
+print(f'💛 {sum(sorted(arr)[-3:]):>6}')
