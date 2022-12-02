@@ -19,9 +19,7 @@ for line in lines:
         rg = l
     else:
         rg = loses[l]
-    silver += 6 if beats[r] == l else (l == r) * 3
-    silver += pts[r]
-    gold += 6 if beats[rg] == l else (l == rg) * 3
-    gold += pts[rg]
+    silver += (6 if beats[r] == l else (l == r) * 3) + pts[r]
+    gold += (6 if beats[rg] == l else (l == rg) * 3) + pts[rg]
 print('silver', silver)
 print('gold', gold)
