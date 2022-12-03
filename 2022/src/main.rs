@@ -1,5 +1,6 @@
 mod day01;
 mod day02;
+mod day03;
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let day: i32 = args
@@ -11,6 +12,7 @@ fn main() {
     match day {
         1 => day01::main(),
         2 => day02::main(),
+        3 => day03::main(),
         _ => println!("Day {} not implemented", day),
     }
 }

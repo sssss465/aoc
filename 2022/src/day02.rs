@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::fs;
 
 fn points(l: u8, r: u8) -> u8 {
     if l == r {
