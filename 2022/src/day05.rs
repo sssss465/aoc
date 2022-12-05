@@ -5,11 +5,11 @@ pub fn main() {
     let input = include_str!("../5");
     let mut mp: HashMap<usize, Vec<&str>> = HashMap::new();
     let mut mp2: HashMap<usize, Vec<&str>> = HashMap::new();
+    let re = Regex::new(r"(?:\[([A-Z])\]|\s(\s{3}))").unwrap();
     input
         .lines()
         .take(8)
         .flat_map(|s| {
-            let re = Regex::new(r"(?:\[([A-Z])\]|\s(\s{3}))").unwrap();
             let c = re.captures_iter(s);
             let vv = c
                 .enumerate()
@@ -26,8 +26,8 @@ pub fn main() {
         });
     mp.iter_mut().for_each(|(_i, v)| v.reverse());
     mp2.iter_mut().for_each(|(_i, v)| v.reverse());
+    let re = Regex::new(r" (\d+)").unwrap();
     input.lines().skip(10).for_each(|s| {
-        let re = Regex::new(r" (\d+)").unwrap();
         let v = re
             .find_iter(s)
             .map(|m| m.as_str().trim().parse::<usize>().unwrap())
