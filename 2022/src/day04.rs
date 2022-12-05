@@ -3,8 +3,8 @@ use std::cmp::{max, min};
 
 pub fn main() {
     let input = include_str!("../4");
+    let re = Regex::new(r"(\d+)-(\d+),(\d+)-(\d+)").unwrap();
     let r = input.lines().fold((0, 0), |(mut s, mut g), line| {
-        let re = Regex::new(r"(\d+)-(\d+),(\d+)-(\d+)").unwrap();
         let c = re.captures(line).unwrap();
         let mut p1 = (
             c[1].parse::<usize>().unwrap(),
