@@ -17,6 +17,6 @@ fn main() {
         3 => day03::main(),
         4 => day04::main(),
         5 => day05::main(),
-        _ => println!("Day {} not implemented", day),
+        _ => eprintln!("Day {} not implemented", day),
     }
 }
