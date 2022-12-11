@@ -34,12 +34,8 @@ class Monkey:
         res = []
         for _, i in enumerate(self.items):
             o = self.op(i) // 3 if not gold else self.op(i) % magic
-            if self.test(o):
-                res.append((self.iftrue, o))
-                self.actions += 1
-            else:
-                res.append((self.iffalse, o))
-                self.actions += 1
+            res.append((self.iftrue if self.test(o) else self.iffalse, o))
+            self.actions += 1
         self.items = []
         return res
 
@@ -54,15 +50,9 @@ magic = 1
 
 def make_lambda(operator, opend):  # need closure for lambda scopes
     if opend == 'old':
-        if operator == '*':
-            return lambda x: x * x
-        else:
-            return lambda x: x + x
+        return lambda x: x * x if operator == '*' else lambda x: x + x
     else:
-        if operator == '*':
-            return lambda x: x * int(opend)
-        else:
-            return lambda x: x + int(opend)
+        return lambda x: x * int(opend) if operator == '*' else lambda x: x + int(opend)
 
 
 def make_mod(n):
