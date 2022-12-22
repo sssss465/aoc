@@ -17,23 +17,6 @@ for l in lines:
         v = [v[5].strip(), v[:4].strip(), v[7:].strip()]
     mp[k] = v
 
-
-def dfs(k):
-    if type(mp[k]) is int:
-        return mp[k]
-    else:
-        op = mp[k][0]
-        if op == '+':
-            return dfs(mp[k][1]) + dfs(mp[k][2])
-        if op == '-':
-            return dfs(mp[k][1]) - dfs(mp[k][2])
-        if op == '/':
-            return dfs(mp[k][1]) // dfs(mp[k][2])
-        if op == '*':
-            return dfs(mp[k][1]) * dfs(mp[k][2])
-    return None
-
-
 mp2 = {}  # accumulated result for that node, whether or not it is on humn path
 
 
@@ -64,7 +47,6 @@ def dfs2(k):
             return left * right, hmnl or hmnr
 
 
-print('silver', dfs('root'))
 # mp['root'][0] = '+'  # change the operation to addition
 print('silver', target := dfs2('root')[0])
 # traverse from the tree from the root to humn
