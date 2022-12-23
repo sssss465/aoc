@@ -19,11 +19,9 @@ beg = [0, 0]
 dim = 0  # dimensions of the cube
 seam = {}  # map each "seam" of the cube to the right coordinate and new direction
 
-
 for i in range(len(grid)):
     if grid[i][-1] != ' ':
         dim += 1
-print(dim)
 
 
 def face_coord_to_real(i, j, face):
@@ -42,7 +40,7 @@ def face_coord_to_real(i, j, face):
     raise Exception('invalid face')
 
 
-def make_seam_transitions():
+def make_seam_transitions():  # tricky logic
     # map seam to the right coordinate and new direction
     for i in range(dim):
         seam[face_coord_to_real(
@@ -86,39 +84,9 @@ def make_seam_transitions():
         # 6 to 2
         seam[face_coord_to_real(dim, i, 6)] = face_coord_to_real(
             dim-1-i, 0, 2), [0, 1]
-        # seam[(i, 2*dim - 1)] = face_coord_to_real(0,
-        #                                           i, 3), [1, 0]  # 1 to 3
-        # seam[(dim-1, dim+i)] = face_coord_to_real(i, 0, 1), [0, 1]  # 3 to 1
-        # seam[(i, 3*dim)] = face_coord_to_real(dim -
-        #                                       1-i, dim-1, 6), [0, -1]  # 1 to 6
-        # seam[(2*dim + i, 4*dim)] = face_coord_to_real(dim-1-i,
-        #                                               dim-1, 1), [0, -1]  # 6 to 1
-        # seam[(dim-1, i)] = face_coord_to_real(0, dim-1-i, 1), [1, 0]  # 2 to 1
-        # seam[(-1, 2*dim + i)] = face_coord_to_real(0,
-        #                                            dim-1-i, 2), [1, 0]  # 1 to 2
-        # seam[(2*dim, i)] = face_coord_to_real(dim -
-        #                                       1, dim-1-i, 5), [-1, 0]  # 2 to 5
-        # seam[(3*dim, 2*dim + i)] = face_coord_to_real(dim -
-        #                                               1, dim-1-i, 2), [-1, 0]  # 5 to 2
-
-        # seam[(2*dim, dim+i)] = face_coord_to_real(0,
-        #                                           dim-1-i, 5), [0, 1]  # 3 to 5
-        # seam[(2*dim + i, 2*dim-1)] = face_coord_to_real(dim -
-        #                                                 1, dim-1-i, 3), [-1, 0]  # 5 to 3
-        # seam[(dim+i, 3*dim)] = face_coord_to_real(0,
-        #                                           dim-1-i, 6), [1, 0]  # 4 to 6
-        # seam[(2*dim - 1, 3*dim + i)] = face_coord_to_real(dim -
-        #                                                   1, dim-1-i, 4), [0, -1]  # 6 to 4
-
-        # seam[(dim+i, -1)] = face_coord_to_real(dim -
-        #                                        1, dim-1-i, 6), [-1, 0]  # 2 to 6
-        # seam[(3*dim, 3*dim + i)] = face_coord_to_real(dim -
-        #                                               1, dim-1-i, 2), [0, 1]  # 6 to 2
 
 
 make_seam_transitions()
-# for k, v in seam.items():
-#     print(k, v)
 
 
 def real_to_face_coord(i, j):
@@ -142,10 +110,7 @@ def nxt2(pos, dir):
     ndir = dir[:]
     if (nxt[0], nxt[1]) in seam:
         nxt, ndir = seam[(nxt[0], nxt[1])]
-        print('seam', pos, dir, nxt, ndir)
     else:
-        print(nxt, grid[nxt[0]][nxt[1]], real_to_face_coord(nxt[0], nxt[1])[2],  M, N,
-              0 <= nxt[0] < M, 0 <= nxt[1] < N)
         assert (0 <= nxt[0] < M and 0 <= nxt[1] <
                 N and grid[nxt[0]][nxt[1]] != ' ')
     if grid[nxt[0]][nxt[1]] == '#':
@@ -199,7 +164,6 @@ def gold_setup():
             x, y = face_coord_to_real(fi, fj, 3)
             grid2[x][y] = grid[i][j]
             old_pos[(x, y)] = (i, j)
-            grid[i][j] = ' '
             fj += 1
         fi += 1
     fi = 0
@@ -209,7 +173,6 @@ def gold_setup():
             x, y = face_coord_to_real(fi, fj, 1)
             grid2[x][y] = grid[i][j]
             old_pos[(x, y)] = (i, j)
-            grid[i][j] = ' '
             fj += 1
         fi += 1
     fi = 0
@@ -219,7 +182,6 @@ def gold_setup():
             x, y = face_coord_to_real(fi, fj, 4)
             grid2[x][y] = grid[i][j]
             old_pos[(x, y)] = (i, j)
-            grid[i][j] = ' '
             fj += 1
         fi += 1
     fi = 0
@@ -229,7 +191,6 @@ def gold_setup():
             x, y = face_coord_to_real(fi, fj, 5)
             grid2[x][y] = grid[i][j]
             old_pos[(x, y)] = (i, j)
-            grid[i][j] = ' '
             fj += 1
         fi += 1
     grid = grid2
@@ -258,8 +219,6 @@ for lvl in ['silver', 'gold']:
                     break
                 pos = nxt
 
-    # for r in grid:
-    #     print(r)
     if lvl == 'gold':
         _, _, face = real_to_face_coord(pos[0], pos[1])
         pos = old_pos[(pos[0], pos[1])]
@@ -267,16 +226,6 @@ for lvl in ['silver', 'gold']:
             dir = rotate(dir, 'L')
         if face == 6:
             dir = rotate(rotate(dir, 'R'), 'R')
-    facing = 0
-    if dir == [0, 1]:
-        facing = 0
-    elif dir == [1, 0]:
-        facing = 1
-    elif dir == [0, -1]:
-        facing = 2
-    elif dir == [-1, 0]:
-        facing = 3
-
-    print(pos[0]+1, pos[1]+1, facing)
-
+    facing = [[0, 1], [1, 0], [0, -1], [-1, 0]].index(dir)
+    # print(pos[0]+1, pos[1]+1, facing)
     print(lvl, (pos[0]+1)*1000 + (pos[1]+1)*4 + facing)
