@@ -10,7 +10,7 @@ lines = [l.strip() for l in fileinput.input()]
 # If any regular number is 10 or greater, the leftmost such regular number splits.
 
 
-def build(pair: str) -> List[Union[List, int]]:
+def build(pair: str) -> List[List[int]]:
     level = 0  # we start at one bc we are gooing to  put both in a list
     res = []
     for c in pair:
@@ -56,7 +56,7 @@ def split(pair) -> bool:
     return False
 
 
-def magnitude(pairs):
+def magnitude(pairs) -> List[int]:  # returns last pair
     # 3x left value, 2x right value summed up, do this recursively
     # build by level from increase to decreasing
     st = [pairs[0]]
@@ -72,7 +72,7 @@ def magnitude(pairs):
     return -1  # bad value
 
 
-def red(pair):
+def red(pair: List[List[int]]) -> List[List[int]]:
     # print("in red")
     """keep reducing until it is fully reduced"""
     i = 0
