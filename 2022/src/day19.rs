@@ -60,7 +60,7 @@ fn max_geodes(blueprint: &[[u16; 4]; 4], max_time: u16) -> u16 {
         max_robots[i] = blueprint.iter().map(|cost| cost[i]).max().unwrap();
     }
     let mut max_geodes = 0;
-
+    let mut max_size: usize = 0;
     let mut q = VecDeque::new();
     q.push_back(State {
         inventory: [0, 0, 0, 0],
@@ -132,11 +132,11 @@ fn max_geodes(blueprint: &[[u16; 4]; 4], max_time: u16) -> u16 {
                 elapsed: new_elapsed,
             })
         }
-
+        max_size = max_size.max(q.len());
         let geodes = inventory[3] + bots[3] * (max_time - elapsed);
         max_geodes = geodes.max(max_geodes);
     }
-
+    // println!("Max size: {}", max_size);
     max_geodes
 }
 
