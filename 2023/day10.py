@@ -64,6 +64,5 @@ for i in range(len(gals)):
 print(silver)
 print(gold)
 
-
 # for l in mat:
 #     print(l)
